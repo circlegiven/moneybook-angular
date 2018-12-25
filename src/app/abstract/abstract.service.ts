@@ -4,12 +4,15 @@ import {Observable, of, throwError} from 'rxjs';
 import {catchError, flatMap} from 'rxjs/operators';
 import {HttpHeader, Result} from '../value/common.value';
 import {CookieService} from 'ngx-cookie-service';
+import {ServiceConstant} from '../common/service.constant';
 
 export abstract class AbstractService {
 
   protected http: HttpClient;
 
   protected cookieService: CookieService;
+
+  protected API_URL = ServiceConstant.API_URL;
 
   // constructor
   constructor(protected injector: Injector) {
