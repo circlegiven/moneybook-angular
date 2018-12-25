@@ -2,7 +2,7 @@ import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http'
 import {Injector} from '@angular/core';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError, flatMap} from 'rxjs/operators';
-import {Result} from '../value/common.value';
+import {HttpHeader, Result} from '../value/common.value';
 import {CookieService} from 'ngx-cookie-service';
 
 export abstract class AbstractService {
@@ -35,11 +35,11 @@ export abstract class AbstractService {
    * POST method
    * @param {string} url
    * @param data
-   * @param headers
+   * @param {HttpHeader} headers
    * @returns {Observable<any>}
    */
-  protected post(url: string, data: any, headers: any = {'Content-Type': 'application/json'}) {
-    return this.http.post(url, JSON.stringify(data), {headers: headers, withCredentials: true, observe: 'response'})
+  protected post(url: string, data: any, headers: HttpHeader = new HttpHeader()) {
+    return this.http.post(url, JSON.stringify(data), {headers: this.headerBuilder(headers), withCredentials: true, observe: 'response'})
       .pipe(
         flatMap((response: HttpResponse<any>) => this.resultHandlerObservable(response)),
         catchError( (error: HttpErrorResponse) => this.errorHandlerObservable(error))
@@ -50,11 +50,11 @@ export abstract class AbstractService {
    * PUT method
    * @param {string} url
    * @param data
-   * @param headers
+   * @param {HttpHeader} headers
    * @returns {Observable<any>}
    */
-  protected put(url: string, data: any, headers: any = {'Content-Type': 'application/json'}) {
-    return this.http.put(url, JSON.stringify(data), {headers: headers, withCredentials: true, observe: 'response'})
+  protected put(url: string, data: any, headers: HttpHeader = new HttpHeader()) {
+    return this.http.put(url, JSON.stringify(data), {headers: this.headerBuilder(headers), withCredentials: true, observe: 'response'})
       .pipe(
         flatMap((response: HttpResponse<any>) => this.resultHandlerObservable(response)),
         catchError( (error: HttpErrorResponse) => this.errorHandlerObservable(error))
@@ -64,11 +64,11 @@ export abstract class AbstractService {
   /**
    * DELETE method
    * @param {string} url
-   * @param headers
+   * @param {HttpHeader} headers
    * @returns {Observable<any>}
    */
-  protected delete(url: string, headers: any = {'Content-Type': 'application/json'}) {
-    return this.http.delete(url, {headers: headers, withCredentials: true, observe: 'response'})
+  protected delete(url: string, headers: HttpHeader = new HttpHeader()) {
+    return this.http.delete(url, {headers: this.headerBuilder(headers), withCredentials: true, observe: 'response'})
       .pipe(
         flatMap((response: HttpResponse<any>) => this.resultHandlerObservable(response)),
         catchError( (error: HttpErrorResponse) => this.errorHandlerObservable(error))
@@ -106,22 +106,42 @@ export abstract class AbstractService {
     // error message
     const errMsg = (error._message) ? error._message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     console.log(errMsg);
+    // result
+    const result: Result = new Result();
     // 토큰 만료
     if (error.status === 401) {
       // init cookie
       this.cookieService.deleteAll();
       // 정보초기화
-      this.app.destroy();
+      // this.app.destroy();
       // 권한없음 반환
-      const result: Result = new Result();
       result.code = '0002';
       result.message = 'UNAUTHURIZATION';
       return throwError(result);
+    } else { // 에러 반환
+      result.code = '0001';
+      result.message = 'FAIL';
     }
-    // 에러 반환
-    const result: Result = new Result();
-    result.code = '0001';
-    result.message = 'FAIL';
     return throwError(result);
+  }
+
+  /**
+   * Header builder
+   * @param {HttpHeader} httpHeader
+   * @returns {{}}
+   */
+  protected headerBuilder(httpHeader: HttpHeader) {
+    const header = {};
+    for (const property in httpHeader) {
+      switch (property) {
+        case 'contentType':
+          header['Content-Type'] = httpHeader[property];
+          break;
+        case 'authorization':
+          header['authorization'] = httpHeader[property];
+          break;
+      }
+    }
+    return header;
   }
 }
