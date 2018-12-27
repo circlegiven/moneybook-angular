@@ -105,9 +105,9 @@ export abstract class AbstractService {
    * @param error
    * @returns {Observable<any>}
    */
-  protected errorHandlerObservable (error: any): Observable<any> {
+  protected errorHandlerObservable (error: HttpErrorResponse): Observable<any> {
     // error message
-    const errMsg = (error._message) ? error._message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+    const errMsg = (error.message) ? error.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     console.log(errMsg);
     // result
     const result: Result = new Result();
