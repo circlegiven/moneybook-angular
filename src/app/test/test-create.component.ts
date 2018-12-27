@@ -17,6 +17,7 @@ export class TestCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // 입력폼 기본값과 validator 세팅
     this.testForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.maxLength(10)]],
       name: ['', [Validators.required, Validators.maxLength(5)]],
@@ -24,6 +25,9 @@ export class TestCreateComponent implements OnInit {
     });
   }
 
+  /**
+   * 등록 버튼 클릭 이벤트
+   */
   doneButtonHandler(): void {
     console.log(this.testForm);
     console.log(this.testForm.valid);
@@ -34,6 +38,9 @@ export class TestCreateComponent implements OnInit {
     }
   }
 
+  /**
+   * 목록으로 이동 버튼 클릭 이벤트
+   */
   backButtonHandler(): void {
     this.router.navigate(['/test']);
   }
