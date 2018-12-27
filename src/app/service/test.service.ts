@@ -2,7 +2,9 @@ import {AbstractService} from '../abstract/abstract.service';
 import {Injectable, Injector} from '@angular/core';
 import {Observable} from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TestService extends AbstractService {
 
   constructor(protected injector: Injector) {
