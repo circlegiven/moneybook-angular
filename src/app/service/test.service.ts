@@ -1,6 +1,7 @@
 import {AbstractService} from '../abstract/abstract.service';
 import {Injectable, Injector} from '@angular/core';
 import {Observable} from 'rxjs';
+import { TestValue } from '../value/test.value';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class TestService extends AbstractService {
    * Get test list
    * @returns {Observable<any>}
    */
-  public getTestList(): Observable<any> {
+  public getTestList(): Observable<TestValue[]> {
     return this.get(this.API_URL + 'test');
   }
 
@@ -33,7 +34,7 @@ export class TestService extends AbstractService {
    * @param {string} id
    * @returns {Observable<any>}
    */
-  public getTestDetail(id: string): Observable<any> {
+  public getTestDetail(id: string): Observable<TestValue> {
     return this.get(this.API_URL + 'test/' + id);
   }
 }
