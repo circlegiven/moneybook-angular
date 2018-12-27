@@ -17,7 +17,9 @@ export class TestDetailComponent implements OnInit {
   constructor(private _testService: TestService,
               private _activatedRoute: ActivatedRoute,
               private _router: Router) {
-
+    // :id는 constructor에서 받아온다
+    this._id = _activatedRoute.snapshot.params['id'];
+    console.log(this._id);
   }
 
   private getTestDatailData(id: string): void {
@@ -29,8 +31,8 @@ export class TestDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.detailData = new TestValueImpl();
-    this._activatedRoute.params.subscribe(params => this._id = params['id']);
-    console.log(this._id);
+    // 상세화면 조회
+    this.getTestDatailData(this._id);
   }
 
   backButtonHandler(): void {
