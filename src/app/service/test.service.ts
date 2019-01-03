@@ -2,6 +2,7 @@ import {AbstractService} from '../abstract/abstract.service';
 import {Injectable, Injector} from '@angular/core';
 import {Observable} from 'rxjs';
 import { TestValue } from '../value/test.value';
+import {PaymentTypeValue} from '../value/payment-type.value';
 
 @Injectable({
   providedIn: 'root',
@@ -18,15 +19,15 @@ export class TestService extends AbstractService {
    * @returns {Observable<any>}
    */
   public setTest(data: any) {
-    return this.post(this.API_URL + 'test', data);
+    return this.post(this.API_URL + 'payment', data);
   }
 
   /**
    * Get test list
    * @returns {Observable<any>}
    */
-  public getTestList(): Observable<TestValue[]> {
-    return this.get(this.API_URL + 'test');
+  public getTestList(): Observable<PaymentTypeValue[]> {
+    return this.get(this.API_URL + 'payment/all');
   }
 
   /**

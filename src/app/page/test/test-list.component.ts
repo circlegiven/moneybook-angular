@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TestValue } from '../../value/test.value';
 import { TestService } from '../../service/test.service';
 import { Router } from '@angular/router';
+import {PaymentTypeValue} from '../../value/payment-type.value';
 
 @Component({
   selector: 'test-list',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class TestListComponent implements OnInit {
 
-  testList: TestValue[];
+  paymentList: PaymentTypeValue[] = [];
 
   constructor(private testService: TestService,
               private router: Router) {
@@ -19,7 +20,7 @@ export class TestListComponent implements OnInit {
   ngOnInit(): void {
     this.testService.getTestList()
       .subscribe(value => {
-
+        this.paymentList = value;
       },error => {
 
       });

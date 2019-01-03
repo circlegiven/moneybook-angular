@@ -2,12 +2,5 @@
   <button (click)="createTest()">생성</button>
 </div>
 <div>
-  <li (click)="titleHandler('detail')">test1</li>
-  <li>test1</li>
-  <li>test1</li>
-  <li>test1</li>
-  <li>test1</li>
-  <li>test1</li>
-  <li>test1</li>
-  <li>test1</li>
+  <li *ngFor="let item of paymentList" (click)="titleHandler('detail')" >{{item.name}}</li>
 </div>

@@ -6,9 +6,11 @@ import {NgModule} from '@angular/core';
 import { TestService } from '../../service/test.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ReactiveFormsModule } from '@angular/forms';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild([
     {path: '', component: TestListComponent},
