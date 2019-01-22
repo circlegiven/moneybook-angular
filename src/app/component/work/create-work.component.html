@@ -1,23 +1,37 @@
 <div>
-  <form>
-    <div>
-      <label>제목: </label>
-      <input type="text"/>
-    </div>
-    <div>
-      <label>타입: </label>
-      <input type="radio" name="수입"/>
-      <input type="radio" name="지출"/>
-    </div>
-    <div>
-      <label>카테고리: </label>
-      <select>
-        <option></option>
-      </select>
-    </div>
-    <div>
-      <label>설명: </label>
-      <input type="text"/>
-    </div>
-  </form>
+  <div>
+    <label>제목: </label>
+    <input type="text" #inputWork/>
+  </div>
+  <div>
+    <input type="radio" (change)="onChangeBudget(budget)" *ngFor="let budget of budgetValueList" name="{{budget.label}}" value="{{budget.value}}"/>
+  </div>
+  <!-- datepicker-->
+  <!-- //datepicker-->
+  <div>
+    <label>항목: </label>
+    <select>
+      <option *ngFor="let category of categoryList"></option>
+      <option></option>
+      <option></option>
+      <option></option>
+    </select>
+  </div>
+  <div>
+    <label>결제방법: </label>
+    <select>
+      <option *ngFor="let category of paymentList"></option>
+      <option></option>
+      <option></option>
+      <option></option>
+    </select>
+  </div>
+  <div>
+    <label>금액: </label>
+    <input type="text" #inputMoney/>
+  </div>
+  <div>
+    <input type="button" name="저장" (click)="onClickSave()"/>
+    <input type="button" name="취소" (click)="onClickCancel()"/>
+  </div>
 </div>
