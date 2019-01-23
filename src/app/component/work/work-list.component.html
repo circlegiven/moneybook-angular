@@ -1,8 +1,10 @@
 <div *ngFor="let item of list">
-  <div>
+  <div (click)="allCloseDetailList(); item.isShow = !item.isShow">
     {{item.dateTime}}
   </div>
-  <div *ngFor="let work of item.workList">
-    <label>{{work.workType}}  {{work.category}} </label>
-  </div>
+  <ng-container *ngIf="item.isShow">
+    <div *ngFor="let work of item.workList">
+      <label>- {{work.date | mdate: 'HH:mm'}} {{convertWorkType(work.workType)}}  {{work.category}}  {{work.money}}</label>
+    </div>
+  </ng-container>
 </div>
