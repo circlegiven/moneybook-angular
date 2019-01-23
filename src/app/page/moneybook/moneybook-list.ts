@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {BookService} from '../../service/book.service';
 
 @Component({
   selector: 'moneybook-list',
@@ -30,10 +31,15 @@ export class MoneybookList {
     },
   ];
 
-  constructor() {
+  public categoryList: any[];
 
+  constructor(private _bookService: BookService) {
+    this._bookService.getCategoryList()
+      .subscribe((result) => {
+        console.log(result);
+      });
   }
 
-  // get list
+  // get category list
 
 }

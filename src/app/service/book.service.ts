@@ -19,7 +19,7 @@ export class BookService extends AbstractService {
   }
 
   public getCategoryList(): Observable<any[]> {
-    return this.get(this.API_URL + 'category');
+    return this.get(this.API_URL + '/category/list');
   }
 
   /**
